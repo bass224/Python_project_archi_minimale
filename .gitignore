@@ -34,6 +34,7 @@ myenv/
 pip-wheel-metadata/
 *.egg-info/
 *.egg
+*.pyc
 
 # ==========================
 # LOGS & TEMP
