@@ -3,7 +3,7 @@ import pandas as pd
 from pipeline_bass.utils.logger import get_logger
 from pathlib import Path
 from pipeline_bass.utils.paths import DATA_DIR, RAW_DATA, INTERIM_DATA, PROCESSED_DATA
-
+import json 
 
 logger = get_logger("data_pipeline", env = "dev", run_id=None, component= "ingestion", json_format=True)
 
@@ -35,4 +35,22 @@ def save_df(df: pd.DataFrame, output_path, filename: str) -> Path:
     logger.info(f"Le dataframe a bien ete sauvegarde ici {output_path}")
     
     return output_path
+
+
+def load_json(file_path: Path) -> pd.DataFrame:
+    """
+    Charge un fichier JSON en DataFrame.
+    """
+    logger.info(f"Loading JSON file: {file_path}")
+
+    if not file_path.exists():
+        logger.error(f"File not found: {file_path}")
+        raise FileNotFoundError(file_path)
+
+    with open(file_path, "r") as f:
+        data = json.load(f)
+
+    df = pd.DataFrame(data)
+    logger.info(f"JSON loaded successfully: {len(df)} rows")
+    return df
 
